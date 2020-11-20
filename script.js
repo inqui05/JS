@@ -14,8 +14,7 @@ console.log( addExpenses.length );
 console.log( `Период равен ${period} месяцев` );
 console.log( `Цель заработать ${mission} рублей` );
 
-addExpenses = addExpenses.toLowerCase();
-console.log( addExpenses.split(', '));
+console.log(addExpenses.toLowerCase().split(', '));
 
 let budgetDay = money / 30;
 console.log( budgetDay );
