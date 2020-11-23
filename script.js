@@ -1,7 +1,7 @@
 let money = +prompt( 'Ваш месячный доход?', '0' );
 let income = '700';
 let addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую', '' );
-let deposit = prompt( 'Есть ли у вас депозит в банке?', 'Нет' );
+let deposit = confirm( 'Есть ли у вас депозит в банке?' );
 let mission = 100000;
 let period = 10;
 let expenses1 = prompt( 'Введите обязательную статью расходов?', 'Коммунальные платежи' );
