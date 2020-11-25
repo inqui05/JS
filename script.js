@@ -20,20 +20,19 @@ function isMoney( anyData ){
 
 function start(){
     do{
-    money  = +prompt( 'Ваш месячный доход?', '50000' );
+    money  = prompt( 'Ваш месячный доход?' );
     } while ( !isMoney( money ) );
 }
 
 function getExpensesMonth(){
     let sum = 0,
         temporaryValue;
-    for ( let i = 0; i < 4; i++ ){
-        expense[i] =  prompt( 'Введите обязательную статью расходов?', 'Коммунальные платежи' );
-    
+    for ( let i = 0; i < 2; i++ ){
+        expense[i] =  prompt( 'Введите обязательную статью расходов?' );
         do{
-            temporaryValue = +prompt( 'Во сколько это обойдется?', '3000' );
+            temporaryValue = prompt( 'Во сколько это обойдется?' );
         } while ( !isMoney( temporaryValue ) );
-        sum += temporaryValue;
+        sum += +temporaryValue;
     }
     return sum;
 }
