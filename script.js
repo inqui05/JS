@@ -15,26 +15,24 @@ let accumulatedMonth = getAccumulatedMonth( money, expensesAmount);
 let budgetDay = accumulatedMonth / 30;
 
 function isMoney( anyData ){
-    return isNaN( parseFloat( anyData )) && isFinite( anyData );
+    return !isNaN( parseFloat( anyData )) && isFinite( anyData );
 }
 
 function start(){
     do{
     money  = +prompt( 'Ваш месячный доход?', '50000' );
-    } while ( isMoney( money ) );
+    } while ( !isMoney( money ) );
 }
 
 function getExpensesMonth(){
     let sum = 0,
         temporaryValue;
-    for ( let i = 0; i < 2; i++ ){
+    for ( let i = 0; i < 4; i++ ){
         expense[i] =  prompt( 'Введите обязательную статью расходов?', 'Коммунальные платежи' );
-    }
-
-    for (let i = 0; i < 4; i++ ){
+    
         do{
             temporaryValue = +prompt( 'Во сколько это обойдется?', '3000' );
-        } while ( isMoney( temporaryValue ) );
+        } while ( !isMoney( temporaryValue ) );
         sum += temporaryValue;
     }
     return sum;
