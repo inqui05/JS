@@ -1,15 +1,15 @@
 'use strict';
 //я бы мог удалить данные в prompt'ах, но так быстрее проверяется :)
-let money,
-    income = '700',
+let money;
+start();
+
+let income = '700',
     addExpenses = prompt( 'Перечислите возможные расходы за рассчитываемый период через запятую', '' ),
     deposit = confirm( 'Есть ли у вас депозит в банке?' ),
     mission = 100000,
     period = 10,
-    expenses1 = prompt( 'Введите обязательную статью расходов?', 'Коммунальные платежи' ),
-    expenses2 = prompt( 'Введите обязаrbyтельную статью расходов?', 'Еда' );
+    expense = [];
 
-start();
 let expensesAmount = getExpensesMonth();
 let accumulatedMonth = getAccumulatedMonth( money, expensesAmount);
 let budgetDay = accumulatedMonth / 30;
@@ -27,7 +27,11 @@ function start(){
 function getExpensesMonth(){
     let sum = 0,
         temporaryValue;
-    for (let i = 0; i < 2; i++ ){
+    for ( let i = 0; i < 2; i++ ){
+        expense[i] =  prompt( 'Введите обязательную статью расходов?', 'Коммунальные платежи' );
+    }
+
+    for (let i = 0; i < 4; i++ ){
         do{
             temporaryValue = +prompt( 'Во сколько это обойдется?', '3000' );
         } while ( isMoney( temporaryValue ) );
@@ -67,7 +71,7 @@ function getStatusIncome(budgetDay){
 console.log( showTypeOf( money ));
 console.log( showTypeOf( income ));
 console.log( showTypeOf( deposit ));
-console.log( 'Суммарные месячные расходы ' + getExpensesMonth());
+console.log( 'Суммарные месячные расходы ' + expensesAmount);
 console.log( addExpenses.toLowerCase().split(', '));
 console.log( getTargetMonth( mission, accumulatedMonth ));
 console.log( 'Дневной бюджет - '+ Math.floor(budgetDay));
