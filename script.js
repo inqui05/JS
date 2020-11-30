@@ -140,8 +140,7 @@ console.log( appData.getTargetMonth());
 console.log( 'Уровень дохода: ' + appData.getStatusIncome() );
 console.log(printTheString(appData.addExpenses));
 
-
+//этот цикл можно взять в комментарий, чтобы не выводил в консоль кучу хлама
 for (let key in appData){
     console.log("Наша программа включает в себя данные: " + key + " - " + appData[key]);
 }
-//console.log(isString(check));
