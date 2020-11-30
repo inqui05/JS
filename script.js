@@ -1,4 +1,4 @@
-/*'use strict';
+'use strict';
 let money;
 start();
 
@@ -42,10 +42,9 @@ let appData = {
         let temporary1,
             temporary2;
 
-            if(confirm('Есть ли у вас дополнительный истоник заработка?')){
+            if(confirm('Есть ли у вас дополнительный источник заработка?')){
                 do{
                     temporary1 = prompt('Какой у вас дополнительный заработок?', 'Граблю');
-    
                 } while ( !isString( temporary1 ) );
                 
                 do{
@@ -63,7 +62,7 @@ let appData = {
             do{
                 temporary1 =  prompt( 'Введите обязательную статью расходов?' );
 
-            } while ( isString( temporary1 ) );
+            } while ( !isString( temporary1 ) );
             
             do{
                 temporary2 = prompt( 'Во сколько это обойдется?' );
@@ -99,30 +98,50 @@ appData.getExpensesMonth();
 appData.getBudget();
 appData.getTargetMonth();
 appData.getStatusIncome();
-*/
-let check = "граблю!";
+appData.getInfoDeposit();
 
 function isMoney( anyData ){
     return !isNaN( parseFloat( anyData )) && isFinite( anyData );
 }
 
 function isString(anyData){
-    return isNaN(anyData)) && !isFinite( anyData );
+    return isNaN(anyData) && !isFinite( anyData );
 }
-/*
+
 function start(){
     do{
     money  = prompt( 'Ваш месячный доход?' );
     } while ( !isMoney( money ) );
 }
 
+function printTheString(arr){
+    let finalString = fixTheFirstLetter(arr[0]);  
+
+    for (let i = 1; i < arr.length; i++){
+        if (i < arr.length){
+            finalString += ', ';        
+        }
+        
+        finalString += fixTheFirstLetter(arr[i]);
+    }
+
+    function fixTheFirstLetter(str) {
+        if (!str) {
+            return str;
+        }
+        return str[0].toUpperCase() + str.slice(1);
+    }
+
+    return finalString;
+}
+
 console.log( 'Суммарные месячные расходы ' + appData.expensesMonth);
 console.log( appData.getTargetMonth());
 console.log( 'Уровень дохода: ' + appData.getStatusIncome() );
+console.log(printTheString(appData.addExpenses));
+
 
 for (let key in appData){
     console.log("Наша программа включает в себя данные: " + key + " - " + appData[key]);
 }
-
-appData.getInfoDeposit();*/
-console.log(!isString('sdsd123 s sds dsds'));
+//console.log(isString(check));
