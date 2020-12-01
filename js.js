@@ -2,6 +2,28 @@
 let money;
 start();
 
+let startButton = document.querySelector('#start'),
+    plusIncomeButton = document.getElementsByTagName('button')[0],
+    plusExpensesButton = document.getElementsByTagName('button')[1],
+    depositSpan = document.querySelector('#deposit-check'),
+    addIncomeInput1 = document.querySelectorAll('.additional_income-item')[0],
+    addIncomeInput2 = document.querySelectorAll('.additional_income-item')[1],
+    budgetDayTotalInput = document.getElementsByClassName('result-total budget_day-value')[0],
+    expensesMonthTotalInput = document.getElementsByClassName('result-total expenses_month-value')[0],
+    addIncomeTotalInput = document.getElementsByClassName('result-total additional_income-value')[0],
+    addExpensesTotalInput = document.getElementsByClassName('result-total additional_expenses-value')[0],
+    incomePeriodTotalInput = document.getElementsByClassName('result-total income_period-value')[0],
+    targetMonthTotalInput = document.getElementsByClassName('result-total target_month-value')[0],
+    budgetMonthInput = document.querySelector('.result-total.budget_month-value'),
+    periodInput = document.querySelector('.period-select'),
+    targetAmountInput = document.querySelector('.target-amount'),
+    addExpensesInput = document.querySelector('.additional_expenses-item'),
+    expensesAmountInput = document.querySelector('.expenses-amount'),
+    expensesTitleInput = document.querySelectorAll('.expenses-title')[1],
+    incomeAmountInput = document.querySelector('.income-amount'),
+    incomeTitleInput = document.querySelectorAll('.income-title')[1],
+    salaryInput = document.querySelector('.salary-amount');
+
 let appData = {
     budget: money,
     budgetDay: 0, 
@@ -131,7 +153,6 @@ function printTheString(arr){
         }
         return str[0].toUpperCase() + str.slice(1);
     }
-
     return finalString;
 }
 
