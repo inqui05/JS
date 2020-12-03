@@ -1,6 +1,4 @@
 'use strict';
-let money;
-start();
 
 let startButton = document.querySelector('#start'),
     plusIncomeButton = document.getElementsByTagName('button')[0],
@@ -18,14 +16,14 @@ let startButton = document.querySelector('#start'),
     periodInput = document.querySelector('.period-select'),
     targetAmountInput = document.querySelector('.target-amount'),
     addExpensesInput = document.querySelector('.additional_expenses-item'),
-    expensesAmountInput = document.querySelector('.expenses-amount'),
+    expensesItems = document.querySelectorAll('.expenses-items'),
     expensesTitleInput = document.querySelectorAll('.expenses-title')[1],
     incomeAmountInput = document.querySelector('.income-amount'),
     incomeTitleInput = document.querySelectorAll('.income-title')[1],
     salaryInput = document.querySelector('.salary-amount');
 
 let appData = {
-    budget: money,
+    budget: 0,
     budgetDay: 0, 
     budgetMonth: 0,
     expensesMonth: 0,
@@ -37,6 +35,41 @@ let appData = {
     period: 3,
     income: {},
     expenses: {},
+    start: function(){
+        if(appData.budget === ''){
+            alert("Введите месячный доход!");
+            return;
+        }
+        appData.budget = salaryInput.value;
+
+        appData.getExpenses();
+
+        //appData.asking();
+        //appData.getExpensesMonth();
+        //appData.getBudget();
+        //appData.getTargetMonth();
+        //appData.getStatusIncome();
+        //appData.getInfoDeposit();
+    },
+    addExpensiveBlok: function(){
+        
+        let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        expensesItems[0].parentNode.insertBefore(cloneExpensesItem, plusExpensesButton);
+        expensesItems = document.querySelectorAll('.expenses-items');
+
+        if (expensesItems.length === 3){
+            plusExpensesButton.style.display = 'none';
+        }
+    },
+    getExpenses: function(){
+        expensesItems.forEach(function(item){
+            let itemExpenses = item.querySelector('expenses-title').value;
+            let cashExpenses = item.querySelector('expenses-amount').value;
+            if (itemExpenses !== '' && cashExpenses !== ''){
+                appData.expenses[itemExpenses] = cashExpenses;
+            }
+        });
+    },
     getBudget: function(){
         appData.budgetMonth = appData.budget - appData.expensesMonth;
         appData.budgetDay = parseInt(appData.budgetMonth / 30);
@@ -115,12 +148,9 @@ let appData = {
     }
 };
 
-appData.asking();
-appData.getExpensesMonth();
-appData.getBudget();
-appData.getTargetMonth();
-appData.getStatusIncome();
-appData.getInfoDeposit();
+startButton.addEventListener('click', appData.start);
+plusExpensesButton.addEventListener('click', appData.addExpensiveBlok);
+
 
 function isMoney( anyData ){
     return !isNaN( parseFloat( anyData )) && isFinite( anyData );
@@ -128,12 +158,6 @@ function isMoney( anyData ){
 
 function isString(anyData){
     return isNaN(anyData) && !isFinite( anyData );
-}
-
-function start(){
-    do{
-    money  = prompt( 'Ваш месячный доход?' );
-    } while ( !isMoney( money ) );
 }
 
 function printTheString(arr){
@@ -156,7 +180,7 @@ function printTheString(arr){
     return finalString;
 }
 
-console.log( 'Суммарные месячные расходы ' + appData.expensesMonth);
+/*console.log( 'Суммарные месячные расходы ' + appData.expensesMonth);
 console.log( appData.getTargetMonth());
 console.log( 'Уровень дохода: ' + appData.getStatusIncome() );
 console.log(printTheString(appData.addExpenses));
@@ -164,4 +188,4 @@ console.log(printTheString(appData.addExpenses));
 //этот цикл можно взять в комментарий, чтобы не выводил в консоль кучу хлама
 for (let key in appData){
     console.log("Наша программа включает в себя данные: " + key + " - " + appData[key]);
-}
+}*/
