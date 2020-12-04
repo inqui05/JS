@@ -37,6 +37,8 @@ let appData = {
     incomeMonth: 0,
     expenses: {},
     start: function(){
+        appData.budget = +salaryInput.value;
+
         appData.getExpenses();
         appData.getIncomes();
         appData.getExpensesMonth();
@@ -95,7 +97,7 @@ let appData = {
                 appData.incomes[itemIncomes] = cashIncomes;
             }
         });
-      //?
+        
         for (let key in appData.income){
             appData.incomeMonth += +appData.income[key];
         }
@@ -167,13 +169,12 @@ let appData = {
     }
 };
 
-salaryInput.addEventListener('keyup', function(){
-    this.value = this.value.replace(/[^\d.]/g, '');
+salaryInput.addEventListener('input', function(){
+    this.value = this.value.replace(/\D/g, "");
 });
 
 startButton.addEventListener('click', function(){
-    appData.budget = +salaryInput.value;
-    if(appData.budget === ''){
+    if(salaryInput.value === ''){
         alert("Введите месячный доход и только потом приступайте к расчету!");
     } else {
     appData.start();
