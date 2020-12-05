@@ -16,12 +16,13 @@ let startButton = document.querySelector('#start'),
     targetAmountInput = document.querySelector('.target-amount'),
     addExpensesInput = document.querySelector('.additional_expenses-item'),
     expensesItems = document.querySelectorAll('.expenses-items'),
-    expensesTitleInput = document.querySelectorAll('.expenses-title')[1],
+    expensesTitleInput = document.querySelectorAll('.expenses-title'),
     incomeAmountInput = document.querySelectorAll('.income-amount'),
     incomeTitleInput = document.querySelectorAll('.income-title'),
     salaryInput = document.querySelector('.salary-amount'),
     incomeItems = document.querySelectorAll('.income-items'),
-    periodAmount = document.querySelector('.title.period-amount');
+    periodAmount = document.querySelector('.title.period-amount'),
+    expensesAmountInput = document.querySelectorAll('.expenses-amount');
 
 let appData = {
     budget: 0,
@@ -64,8 +65,20 @@ let appData = {
     },
     addExpensiveBlok: function(){
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
+        cloneExpensesItem.querySelector('.expenses-title').value = '';
+        cloneExpensesItem.querySelector('.expenses-amount').value = '';
         expensesItems[0].parentNode.insertBefore(cloneExpensesItem, plusExpensesButton);
         expensesItems = document.querySelectorAll('.expenses-items');
+
+        expensesAmountInput = document.querySelectorAll('.expenses-amount');
+        expensesAmountInput[expensesAmountInput.length - 1].addEventListener('input', function(){
+            this.value = this.value.replace(/\D/g, "");
+        });
+
+        expensesTitleInput = document.querySelectorAll('.expenses-title');
+        expensesTitleInput[expensesTitleInput.length - 1].addEventListener('input', function(){
+            this.value = this.value.replace(/\w/g, "");
+        });
 
         if (expensesItems.length === 3){
             plusExpensesButton.style.display = 'none';
@@ -73,8 +86,21 @@ let appData = {
     },
     addIncomeBlok: function(){
         let cloneIncomesItem = incomeItems[0].cloneNode(true);
+        cloneIncomesItem.querySelector('.income-title').value = '';
+        cloneIncomesItem.querySelector('.income-amount').value = '';
         incomeItems[0].parentNode.insertBefore(cloneIncomesItem, plusIncomeButton);
         incomeItems = document.querySelectorAll('.income-items');
+        
+        incomeAmountInput = document.querySelectorAll('.income-amount');
+        incomeAmountInput[incomeAmountInput.length - 1].addEventListener('input', function(){
+            this.value = this.value.replace(/\D/g, "");
+        });
+
+        //Александр, у меня тут затык получился. Уже тысячу логов вывел. Например, длина 3, но когда ставишь incomeAmountInput.length - 1, выводит первый, а не 2
+        incomeTitleInput = document.querySelectorAll('.income-title');
+        incomeTitleInput[incomeAmountInput.length].addEventListener('input', function(){
+            this.value = this.value.replace(/\w/g, "");
+        });
 
         if (incomeItems.length === 3){
             plusIncomeButton.style.display = 'none';
@@ -171,6 +197,36 @@ let appData = {
 
 salaryInput.addEventListener('input', function(){
     this.value = this.value.replace(/\D/g, "");
+});
+
+incomeAmountInput[0].addEventListener('input', function(){
+    this.value = this.value.replace(/\D/g, "");
+});
+
+expensesAmountInput[0].addEventListener('input', function(){
+    this.value = this.value.replace(/\D/g, "");
+});
+
+targetAmountInput.addEventListener('input', function(){
+    this.value = this.value.replace(/\D/g, "");
+});
+
+addExpensesInput.addEventListener('input', function(){
+    this.value = this.value.replace(/\w/g, "");
+});
+
+for (let i = 0; i < addIncomeInput.length; i++){
+    addIncomeInput[i].addEventListener('input', function(){
+        this.value = this.value.replace(/\w/g, "");
+    });
+}
+
+incomeTitleInput[1].addEventListener('input', function(){
+    this.value = this.value.replace(/\w/g, "");
+});
+
+expensesTitleInput[1].addEventListener('input', function(){
+    this.value = this.value.replace(/\w/g, "");
 });
 
 startButton.addEventListener('click', function(){
