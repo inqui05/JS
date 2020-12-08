@@ -50,6 +50,7 @@ let appData = {
 
         this.showResult();
         this.disableInput();
+        console.log(this);
         
     },
     reset: function(){
@@ -68,8 +69,6 @@ let appData = {
 
         this.enableInput();
         this.resetInputs();
-
-        //startButton.removeEventListener('click', pressStart);
     },
     resetInputs: function(){
         salaryInput.value = '';
@@ -89,7 +88,7 @@ let appData = {
                 expensesItems[i].remove();
             }
         });
-        document.querySelectorAll('.expenses-title')[1].value = '';
+        document.querySelectorAll('.expenses-title')[1].value = ''; //ио
         document.querySelector('.expenses-amount').value = '';
         incomeItems = document.querySelectorAll('.income-items');
         addExpensesInput.value = '';
@@ -175,6 +174,7 @@ let appData = {
         });
     },
     addExpensiveBlok: function(){
+        expensesItems = document.querySelectorAll('.expenses-items');
         let cloneExpensesItem = expensesItems[0].cloneNode(true);
         cloneExpensesItem.querySelector('.expenses-title').value = '';
         cloneExpensesItem.querySelector('.expenses-amount').value = '';
@@ -235,7 +235,7 @@ let appData = {
     },
     getIncomes: function(){
         incomeItems.forEach(function(item){
-            let itemIncomes = item.querySelector('.income-title').value;
+            let itemIncomes = item.querySelector('.income-title').value; //check
             let cashIncomes = item.querySelector('.income-amount').value;
             if (itemIncomes !== '' && cashIncomes !== ''){
                 appData.incomes[itemIncomes] = cashIncomes;
