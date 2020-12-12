@@ -120,6 +120,8 @@ let expensesItems = document.querySelectorAll('.expenses-items'),
             depositAmount.style.display = 'none';
             depositPercent.style.display = 'none';
             depositPercent.value = '';
+            depositAmount.value = '';
+            depositBank.value = '';
         }
 
         disableInput(){
@@ -403,9 +405,10 @@ let expensesItems = document.querySelectorAll('.expenses-items'),
             startButton.addEventListener('click', () => {
                 if(salaryInput.value === ''){
                     alert("Введите месячный доход и только потом приступайте к расчету!");
-                } else if (depositPercent.value === '' ||depositPercent.value < 0 || depositPercent.value > 100){
-                    console.log(depositPercent.value);
+                } else if (depositSpan.checked && depositBank.value === 'other' && (depositPercent.value === '' || depositPercent.value < 0 || depositPercent.value > 100)){
                     alert("Процент не может быть ниже 0 или превышать 100!");
+                } else if (depositBank.value === ''){
+                    alert("Выберите банк или введите свой процент по депозиту!");
                 } else {
                     _this.start();
                 }
@@ -449,6 +452,7 @@ let expensesItems = document.querySelectorAll('.expenses-items'),
             if (valueSelect === 'other'){
                 depositPercent.style.display = 'inline-block';
             } else {
+                depositPercent.style.display = 'none';
                 depositPercent.value = valueSelect;
             }
         }
