@@ -448,6 +448,7 @@ let expensesItems = document.querySelectorAll('.expenses-items'),
         }
 
         changePercent(){
+            console.log(this);
             const valueSelect = this.value;
             if (valueSelect === 'other'){
                 depositPercent.style.display = 'inline-block';
