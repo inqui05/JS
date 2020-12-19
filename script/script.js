@@ -64,12 +64,9 @@ window.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (document.getElementsByClassName('.active-menu').length > 0) {
-                if (!target.classList.contains('.active-menu')) {
-                    console.log(document.getElementsByClassName('.active-menu'));
-                    handlerMenu();
-                    console.log(document.getElementsByClassName('.active-menu'));
-                }
+            if (document.querySelector('.active-menu') !== null && !target.classList.contains('active-menu')) {
+                handlerMenu();
+                return;
             }
         });
     };
