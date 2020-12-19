@@ -232,9 +232,34 @@ window.addEventListener('DOMContentLoaded', () => {
                 startSlide();
             }
         });
-
         startSlide(2000);
 
     };
-    slider();
+    //slider();
+
+    //домашка 21
+    const homeWork = () => {
+        const dots = document.querySelectorAll('.dot'),
+            portfolio = document.querySelector('.portfolio-dots');
+
+        dots.forEach(elem => {
+            elem.remove();
+        });
+
+        const createNewDot = () => {
+
+    
+            for (let i = 0; i < document.querySelectorAll('.portfolio-item').length; i++) {
+                let dot = document.createElement('li');
+                dot.classList.add('dot');
+                if (i === 0){
+                    dot.classList.add('dot-active');
+                }
+                portfolio.append(dot);
+            }
+        };
+        createNewDot();
+        slider();
+    };
+    homeWork();
 });
