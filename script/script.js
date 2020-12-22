@@ -240,4 +240,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
     };
     slider();
+
+    //калькулятор
+    const calculater = () => {
+        const calc = document.querySelector('.calc-block');
+
+        calc.addEventListener('input', event => {
+            if (event.target.matches('.calc-square, .calc-count, .calc-day')) {
+                event.target.value = event.target.value.replace(/\D/g, '');
+            }
+        });
+    };
+    calculater();
+
+    //пункт 1 домашки. У многих изображений не прописан data-img, поэтому для них ничего не будет меняться
+    const numberOne = () => {
+        const body = document.querySelector('body');
+
+        const changeImg = () => {
+            let temporaryImg;
+
+            if (event.target.tagName === 'IMG' && event.target.dataset.img !== undefined) {
+                temporaryImg = event.target.src;
+                event.target.src = event.target.dataset.img;
+                event.target.dataset.img = temporaryImg;
+            }
+        };
+
+        body.addEventListener('mouseover', changeImg);
+        body.addEventListener('mouseout', changeImg);
+    };
+    numberOne();
 });
