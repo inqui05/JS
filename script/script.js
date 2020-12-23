@@ -304,7 +304,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         calcBlock.addEventListener('change', event => {
             const target = event.target;
-            if (target.matches('.calc-square, .calc-count, .calc-day')) {
+            if (event.target.matches('.calc-square, .calc-count, .calc-day')) {
                 event.target.value = event.target.value.replace(/\D/g, '');
             }
 
