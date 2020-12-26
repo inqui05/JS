@@ -333,7 +333,6 @@ window.addEventListener('DOMContentLoaded', () => {
     //send-ajax-form
     const sendForm = () => {
         const errorMessage = 'Что-то пошло не так...',
-            loadMessage = 'Загрузка...',
             successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
 
         const form = document.getElementById('form1'),
@@ -342,9 +341,7 @@ window.addEventListener('DOMContentLoaded', () => {
             body = document.querySelector('body');
         const statusMessage = document.createElement('div');
 
-        statusMessage.style.cssText = 'font-size: 2rem;';
-
-        //использована маска Максима
+        //использована маска Максима, только маску сделал другую
         const maskPhone = (masked = '+7 (___) ___-__-__') => {
             const elems = document.querySelectorAll('.form-phone');
 
@@ -438,7 +435,68 @@ window.addEventListener('DOMContentLoaded', () => {
             let formData,
                 currentForm;
 
-            statusMessage.textContent = loadMessage;
+            statusMessage.innerHTML = `
+            <div class="spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+            <style type="text/css">
+            .spinner {
+                margin: 100px auto;
+                width: 50px;
+                height: 40px;
+                text-align: center;
+                font-size: 10px;
+              }
+              
+              .spinner > div {
+                background-color: #05C8FF;
+                height: 100%;
+                width: 6px;
+                display: inline-block;
+                
+                -webkit-animation: sk-stretchdelay 1.2s infinite ease-in-out;
+                animation: sk-stretchdelay 1.2s infinite ease-in-out;
+              }
+              
+              .spinner .rect2 {
+                -webkit-animation-delay: -1.1s;
+                animation-delay: -1.1s;
+              }
+              
+              .spinner .rect3 {
+                -webkit-animation-delay: -1.0s;
+                animation-delay: -1.0s;
+              }
+              
+              .spinner .rect4 {
+                -webkit-animation-delay: -0.9s;
+                animation-delay: -0.9s;
+              }
+              
+              .spinner .rect5 {
+                -webkit-animation-delay: -0.8s;
+                animation-delay: -0.8s;
+              }
+              
+              @-webkit-keyframes sk-stretchdelay {
+                0%, 40%, 100% { -webkit-transform: scaleY(0.4) }  
+                20% { -webkit-transform: scaleY(1.0) }
+              }
+              
+              @keyframes sk-stretchdelay {
+                0%, 40%, 100% { 
+                  transform: scaleY(0.4);
+                  -webkit-transform: scaleY(0.4);
+                }  20% { 
+                  transform: scaleY(1.0);
+                  -webkit-transform: scaleY(1.0);
+                }
+              }
+           </style>`;
 
             if (target === form) {
                 currentForm = form;
@@ -451,7 +509,6 @@ window.addEventListener('DOMContentLoaded', () => {
             } else if (target === popUpForm) {
                 currentForm = popUpForm;
                 formData = new FormData(popUpForm);
-                statusMessage.style.color = '#FFFFFF';
                 popUpForm.appendChild(statusMessage);
             }
 
@@ -460,13 +517,16 @@ window.addEventListener('DOMContentLoaded', () => {
             });
 
             postData(currentForm, jsonBody, () => {
+                statusMessage.style.cssText = 'font-size: 2rem;';
                 statusMessage.textContent = successMessage;
+                statusMessage.style.color = '#FFFFFF';
+                setTimeout(() => statusMessage.remove(), 5000);
             }, error => {
+                statusMessage.style.cssText = 'font-size: 2rem;';
                 statusMessage.textContent = errorMessage;
                 console.error(error);
             }
             );
-
         });
     };
     sendForm();
