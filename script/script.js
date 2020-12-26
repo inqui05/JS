@@ -45,8 +45,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //меню
     const toggleMenu = () => {
-        const btnMenu = document.querySelector('.menu'),
-            menu = document.querySelector('menu'),
+        const menu = document.querySelector('menu'),
             body = document.querySelector('body');
 
         const handlerMenu = () => {
@@ -66,9 +65,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (document.getElementsByClassName('.active-menu').length > 0) {
                 if (!target.classList.contains('.active-menu')) {
-                    console.log(document.getElementsByClassName('.active-menu'));
                     handlerMenu();
-                    console.log(document.getElementsByClassName('.active-menu'));
                 }
             }
         });
@@ -157,7 +154,6 @@ window.addEventListener('DOMContentLoaded', () => {
     //слайдер
     const slider = () => {
         const slide = document.querySelectorAll('.portfolio-item'),
-            btn = document.querySelectorAll('.portfolio-btn'),
             dot = document.querySelectorAll('.dot'),
             slider = document.querySelector('.portfolio-content');
         let currentSlide = 0,
@@ -333,4 +329,145 @@ window.addEventListener('DOMContentLoaded', () => {
         body.addEventListener('mouseout', changeImg);
     };
     numberOne();
+
+    //send-ajax-form
+    const sendForm = () => {
+        const errorMessage = 'Что-то пошло не так...',
+            loadMessage = 'Загрузка...',
+            successMessage = 'Спасибо! Мы скоро с вами свяжемся!';
+
+        const form = document.getElementById('form1'),
+            bottomForm = document.getElementById('form2'),
+            popUpForm = document.getElementById('form3'),
+            body = document.querySelector('body');
+        const statusMessage = document.createElement('div');
+
+        statusMessage.style.cssText = 'font-size: 2rem;';
+
+        //использована маска Максима
+        const maskPhone = (masked = '+7 (___) ___-__-__') => {
+            const elems = document.querySelectorAll('.form-phone');
+
+            function mask(event) {
+                const keyCode = event.keyCode;
+                const template = masked,
+                    def = template.replace(/\D/g, ""),
+                    val = this.value.replace(/\D/g, "");
+                let i = 0,
+                    newValue = template.replace(/[_\d]/g, a => (i < val.length ? val.charAt(i++) || def.charAt(i) : a));
+                i = newValue.indexOf("_");
+                if (i !== -1) {
+                    newValue = newValue.slice(0, i);
+                }
+                let reg = template.substr(0, this.value.length).replace(/_+/g,
+                    a => "\\d{1," + a.length + "}").replace(/[+()]/g, "\\$&");
+                reg = new RegExp("^" + reg + "$");
+                if (!reg.test(this.value) || this.value.length < 5 || keyCode > 47 && keyCode < 58) {
+                    this.value = newValue;
+                }
+                if (event.type === "blur" && this.value.length < 5) {
+                    this.value = "";
+                }
+            }
+
+            for (const elem of elems) {
+                elem.addEventListener("input", mask);
+                elem.addEventListener("focus", mask);
+                elem.addEventListener("blur", mask);
+            }
+        };
+
+        const checkName = () => {
+            const elems = document.querySelectorAll('.form-name'),
+                bottomElem = document.querySelector('#form2-name'),
+                newElems = [...elems, bottomElem];
+
+            for (const elem of newElems) {
+                elem.addEventListener("input", event => {
+                    event.target.value = event.target.value.replace(/[^А-ЯЁа-яё ]/g, '');
+                });
+            }
+        };
+
+        const checkEmail = () => {
+            const elems = document.querySelectorAll('.form-email');
+
+            for (const elem of elems) {
+                elem.addEventListener("input", event => {
+                    // eslint-disable-next-line max-len
+                    event.target.value = event.target.value.replace(/[^a-zA-Z0-9.@!#$%&+_-]*$/, '');
+                });
+            }
+        };
+
+        const checkMessage = () => {
+            document.getElementById('form2-message').addEventListener("input", event => {
+                event.target.value = event.target.value.replace(/[^?!,.а-яА-ЯёЁ0-9\s]+$/g, '');
+            });
+        };
+        maskPhone('+7 ___ ___-__-__');
+        checkName();
+        checkEmail();
+        checkMessage();
+
+        const postData = (currentForm, jsonBody, outputData, errorData) => {
+            const request = new XMLHttpRequest();
+
+            request.addEventListener('readystatechange', () => {
+                if (request.readyState !== 4) {
+                    return;
+                }
+                if (request.status === 200) {
+                    outputData();
+                    currentForm.reset();
+                }   else {
+                    errorData(request.status);
+                }
+            });
+
+            request.open('POST', './server.php');
+            request.setRequestHeader('Content-Type', 'application');
+            request.send(JSON.stringify(jsonBody));
+        };
+
+        body.addEventListener('submit', event => {
+            event.preventDefault();
+            const target = event.target;
+            const jsonBody = {};
+
+            let formData,
+                currentForm;
+
+            statusMessage.textContent = loadMessage;
+
+            if (target === form) {
+                currentForm = form;
+                formData = new FormData(form);
+                form.appendChild(statusMessage);
+            } else if (target === bottomForm) {
+                currentForm = bottomForm;
+                formData = new FormData(bottomForm);
+                bottomForm.appendChild(statusMessage);
+            } else if (target === popUpForm) {
+                currentForm = popUpForm;
+                formData = new FormData(popUpForm);
+                statusMessage.style.color = '#FFFFFF';
+                popUpForm.appendChild(statusMessage);
+            }
+
+            formData.forEach((val, key) => {
+                jsonBody[key] = val;
+            });
+
+            postData(currentForm, jsonBody, () => {
+                statusMessage.textContent = successMessage;
+            }, error => {
+                statusMessage.textContent = errorMessage;
+                console.error(error);
+            }
+            );
+
+        });
+    };
+    sendForm();
 });
