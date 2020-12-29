@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 timerSeconds.textContent = '00';
             }
         }
-
+        updateClock();
         setInterval(updateClock, 1000);
     };
     countTimer('01/01/2021');
@@ -407,7 +407,7 @@ window.addEventListener('DOMContentLoaded', () => {
         checkEmail();
         checkMessage();
 
-        const postData = (currentForm, jsonBody, outputData, errorData) => {
+        const postData = (currentForm, jsonBody) => new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
 
             request.addEventListener('readystatechange', () => {
@@ -415,17 +415,17 @@ window.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 if (request.status === 200) {
-                    outputData();
+                    resolve();
                     currentForm.reset();
                 }   else {
-                    errorData(request.status);
+                    reject(request.status);
                 }
             });
 
             request.open('POST', './server.php');
             request.setRequestHeader('Content-Type', 'application');
             request.send(JSON.stringify(jsonBody));
-        };
+        });
 
         body.addEventListener('submit', event => {
             event.preventDefault();
@@ -516,17 +516,20 @@ window.addEventListener('DOMContentLoaded', () => {
                 jsonBody[key] = val;
             });
 
-            postData(currentForm, jsonBody, () => {
-                statusMessage.style.cssText = 'font-size: 2rem;';
-                statusMessage.textContent = successMessage;
-                statusMessage.style.color = '#FFFFFF';
-                setTimeout(() => statusMessage.remove(), 5000);
-            }, error => {
-                statusMessage.style.cssText = 'font-size: 2rem;';
-                statusMessage.textContent = errorMessage;
-                console.error(error);
-            }
-            );
+            postData(currentForm, jsonBody)
+                .then(() => {
+                    statusMessage.style.cssText = 'font-size: 2rem;';
+                    statusMessage.textContent = successMessage;
+                    statusMessage.style.color = '#FFFFFF';
+                    setTimeout(() => statusMessage.remove(), 5000);
+                }, error => {
+                    statusMessage.style.cssText = 'font-size: 2rem;';
+                    statusMessage.textContent = errorMessage;
+                    console.error(error);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         });
     };
     sendForm();
