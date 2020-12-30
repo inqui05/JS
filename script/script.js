@@ -407,24 +407,12 @@ window.addEventListener('DOMContentLoaded', () => {
         checkEmail();
         checkMessage();
 
-        const postData = (currentForm, jsonBody) => new Promise((resolve, reject) => {
-            const request = new XMLHttpRequest();
-
-            request.addEventListener('readystatechange', () => {
-                if (request.readyState !== 4) {
-                    return;
-                }
-                if (request.status === 200) {
-                    resolve();
-                    currentForm.reset();
-                }   else {
-                    reject(request.status);
-                }
-            });
-
-            request.open('POST', './server.php');
-            request.setRequestHeader('Content-Type', 'application');
-            request.send(JSON.stringify(jsonBody));
+        const postData = (currentForm, jsonBody) => fetch('./server.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'applicatin/json'
+            },
+            body: JSON.stringify(jsonBody)
         });
 
         body.addEventListener('submit', event => {
@@ -517,17 +505,19 @@ window.addEventListener('DOMContentLoaded', () => {
             });
 
             postData(currentForm, jsonBody)
-                .then(() => {
+                .then(response => {
+                    if (response.status !== 200) {
+                        throw new Error('Network status is not 200');
+                    }
+                    currentForm.reset();
                     statusMessage.style.cssText = 'font-size: 2rem;';
-                    statusMessage.textContent = successMessage;
                     statusMessage.style.color = '#FFFFFF';
+                    statusMessage.textContent = successMessage;
                     setTimeout(() => statusMessage.remove(), 5000);
-                }, error => {
-                    statusMessage.style.cssText = 'font-size: 2rem;';
-                    statusMessage.textContent = errorMessage;
-                    console.error(error);
                 })
                 .catch(error => {
+                    statusMessage.style.cssText = 'font-size: 2rem;';
+                    statusMessage.textContent = errorMessage;
                     console.error(error);
                 });
         });
