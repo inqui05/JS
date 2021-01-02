@@ -8,6 +8,7 @@ import slider from './modules/slider';
 import calculater from './modules/calculater';
 import changeImg from './modules/changeImg';
 import sendForm from './modules/sendForm';
+import scrollTotheSecondWindow from './modules/scrollTotheSecondWindow';
 
 //таймер
 countTimer('01/20/2021');
@@ -25,3 +26,5 @@ calculater();
 changeImg();
 //send-ajax-form
 sendForm();
+//плавный скрол на второй экран
+scrollTotheSecondWindow();
