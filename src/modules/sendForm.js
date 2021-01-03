@@ -13,6 +13,7 @@ const sendForm = () => {
         const elems = document.querySelectorAll('.form-phone');
 
         function mask(event) {
+            event.target.style.backgroundColor = "white";
             const keyCode = event.keyCode;
             const template = masked,
                 def = template.replace(/\D/g, ""),
@@ -48,6 +49,7 @@ const sendForm = () => {
 
         for (const elem of newElems) {
             elem.addEventListener("input", event => {
+                elem.style.backgroundColor = "white";
                 event.target.value = event.target.value.replace(/[^А-ЯЁа-яё ]/g, '');
             });
         }
@@ -58,7 +60,7 @@ const sendForm = () => {
 
         for (const elem of elems) {
             elem.addEventListener("input", event => {
-                // eslint-disable-next-line max-len
+                elem.style.backgroundColor = "white";
                 event.target.value = event.target.value.replace(/[^a-zA-Z0-9.@!#$%&+_-]*$/, '');
             });
         }
@@ -66,6 +68,7 @@ const sendForm = () => {
 
     const checkMessage = () => {
         document.getElementById('form2-message').addEventListener("input", event => {
+            event.target.style.backgroundColor = "white";
             event.target.value = event.target.value.replace(/[^?!,.а-яА-ЯёЁ0-9\s]+$/g, '');
         });
     };
@@ -86,8 +89,19 @@ const sendForm = () => {
         event.preventDefault();
         const target = event.target;
 
-        if (target.querySelector('.form-email').value === ''){
+        if (target.matches('.footer-form') && target.querySelector('.top-form').value.length < 2) {
+            target.querySelector('.top-form').value = '';
+            target.querySelector('.top-form').style.backgroundColor = "red";
+        } else if(!target.matches('.footer-form') && target.querySelector('.form-name').value.length < 2) {
+            target.querySelector('.form-name').value = '';
+            target.querySelector('.form-name').style.backgroundColor = "red";
+        } else if (target.querySelector('.form-email').value === ''){
             target.querySelector('.form-email').style.backgroundColor = "red";
+        } else if(target.classList.contains('footer-form') && target.querySelector('#form2-message').value === '') {
+            target.querySelector('#form2-message').style.backgroundColor = "red";
+        } else if(target.querySelector('.form-phone').value.length < 10) {
+            target.querySelector('.form-phone').value = '';
+            target.querySelector('.form-phone').style.backgroundColor = 'red';
         } else {
             const jsonBody = {};
 
